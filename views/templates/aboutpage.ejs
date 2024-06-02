@@ -1,0 +1,109 @@
+<% layout("layouts/boilerplate.ejs") %>
+
+<section id="about-section">
+  <!-- about left  -->
+  <div class="about-left">
+      <img src="/images/5437683.jpg" alt="About Img"/>
+  </div>
+
+  <!-- about right  -->
+  <div class="about-right">
+      <h1 style="font-weight: 600;">About Us</h1>
+      <h6 id="about-font">Welcome to <span style="color: #fc983b;">Web Based Student Performance Assessment System</span></h6>
+      <p>
+        At <span style="font-weight: 600;">Web Based Student Performance Assessment System</span>, we are committed to revolutionizing the way students prepare for their exams. 
+        Our platform offers a comprehensive suite of tools and resources designed to empower learners to succeed academically with confidence.
+      </p>
+      <div class="address">
+          <ul>
+              <li>
+                  <span class="address-logo">
+                      <i class="fas fa-paper-plane"></i>
+                  </span>
+                  <p>Address</p>
+                  <span class="saprater">:</span>
+                  <p>Machilipatnam, AndhraPradesh, India</p>
+              </li>
+              <li>
+                  <span class="address-logo">
+                      <i class="fas fa-phone-alt"></i>
+                  </span>
+                  <p>Phone No</p>
+                  <span class="saprater">:</span>
+                  <p>+91 987-654-4321</p>
+              </li>
+              <li>
+                  <span class="address-logo">
+                      <i class="far fa-envelope"></i>
+                  </span>
+                  <p>Email ID</p>
+                  <span class="saprater">:</span>
+                  <p>KRU@gmail.com</p>
+              </li>
+          </ul>
+      </div>
+  </div>
+</section>
+<div class="container mt-3">
+    <div class="review-heading text-center">
+        <h1><span>R</span>eviews</h1>
+    </div>
+</div>    
+<% if(currUser) {%>
+    <div class="container mt-3">
+        <div class="Addreview mt-3 mb-3">
+            <form action="/review/<%= currUser._id%>" method="POST">
+                <div>
+                    <label for="rating">Rating :</label>
+                    <fieldset class="starability-slot">
+                        <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="1" checked aria-label="No rating." />
+                        <input type="radio" id="first-rate1" name="rating" value="1" />
+                        <label for="first-rate1" title="Terrible">1 star</label>
+                        <input type="radio" id="first-rate2" name="rating" value="2" />
+                        <label for="first-rate2" title="Not good">2 stars</label>
+                        <input type="radio" id="first-rate3" name="rating" value="3" />
+                        <label for="first-rate3" title="Average">3 stars</label>
+                        <input type="radio" id="first-rate4" name="rating" value="4" />
+                        <label for="first-rate4" title="Very good">4 stars</label>
+                        <input type="radio" id="first-rate5" name="rating" value="5" />
+                        <label for="first-rate5" title="Amazing">5 stars</label>
+                    </fieldset>
+                </div>
+                <div>
+                    <textarea name="Review" cols="50" rows="5" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-dark">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+<%}%>
+<% const admin = process.env.ADMIN_USERNAME %>
+<div class="container mt-3 allshowReviews">
+    <% for (review of stdreviews) { %>
+        <div class="showReview">
+            <div class="revUsername">
+                <%= review. username%>
+            </div>
+            <div class="revreview">
+                <%= review.review%>
+            </div>
+            <div>
+                <p class="starability-result" data-rating="<%= review.rating %>">
+                </p>
+            </div>
+            <div class="mb-3">
+                <% if(currUser && currUser.username === admin) { %>
+                    <form action="/review/<%= review._id %>/delete?_method=DELETE" method="POST">
+                        <button class="btn btn-dark">delete</button>
+                    </form>
+                <% } %> 
+            </div>
+        </div>  
+    <%} %>
+</div>
+
+
+
+  
